@@ -4,6 +4,7 @@ Dumb Phone method for iOS written in C++, leveraging libimobiledevice and iOS pr
 # Showcase
 ![app showcase](https://i.imgur.com/ZjUd2XM.png)
 ![app showcase #2](https://i.imgur.com/QiZbpjw.png)
+![app showcase #3](https://i.imgur.com/PeMEtvM.jpeg)
 
 ## Build
 

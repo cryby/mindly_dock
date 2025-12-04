@@ -14,6 +14,7 @@ device_manager::device_manager() {
 
 device_manager::~device_manager() {
     this->disconnect();
+    idevice_event_unsubscribe();
 }
 
 
