@@ -18,7 +18,7 @@ class device_manager {
         bool connected{false};
 
     public:
-        device_manager() = default;
+        device_manager();
         ~device_manager();
         bool connect();
         void disconnect();
@@ -29,6 +29,7 @@ class device_manager {
         [[nodiscard]] idevice_t get_device() const { return device; };
         lockdownd_service_descriptor_t start_service(const char* id) const;
         [[nodiscard]] bool get_connected() const { return connected; };
+        static void event_handler(const idevice_event_t* event, void* user_data);
     private:
         void get_lockdown_value(const char* key, char** output) const;
 };

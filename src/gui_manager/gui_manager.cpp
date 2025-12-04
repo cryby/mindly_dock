@@ -14,6 +14,7 @@ void gui_manager::glfw_error_callback(const int error, const char* description) 
 }
 
 void gui_manager::destroy() const {
+    ImGui::PopFont();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -35,6 +36,7 @@ void gui_manager::init() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_TRUE);
 
     this->window = glfwCreateWindow(280, 200, "Mindly", nullptr, nullptr );
     glfwMakeContextCurrent(this->window);
@@ -42,6 +44,10 @@ void gui_manager::init() {
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(this->window, true);
     ImGui_ImplOpenGL3_Init();
+
+    ImGuiIO& io = ImGui::GetIO();
+    ImFont* font = io.Fonts->AddFontFromFileTTF("/Users/tobiaskocur/CLionProjects/mindly/fonts/sf.ttf", 16.f, NULL);
+    ImGui::PushFont(font);
 }
 
 void gui_manager::begin() {
@@ -58,6 +64,7 @@ void gui_manager::end() const {
     int display_w, display_h;
     glfwGetFramebufferSize(this->window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     glfwSwapBuffers(this->window);

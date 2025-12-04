@@ -7,9 +7,27 @@
 #include <iostream>
 #include <ostream>
 
+device_manager::device_manager() {
+    idevice_event_subscribe(event_handler, this);
+}
+
+
 device_manager::~device_manager() {
     this->disconnect();
 }
+
+
+void device_manager::event_handler(const idevice_event_t *event, void *user_data) {
+    device_manager* manager = static_cast<device_manager*>(user_data);
+    if (event->event == IDEVICE_DEVICE_ADD) {
+        std::cout << "Pripojené" << std::endl;
+        manager->connect();
+    } else if (event->event == IDEVICE_DEVICE_REMOVE) {
+        std::cout << "Odpojené" << std::endl;
+        manager->disconnect();
+    }
+}
+
 
 bool device_manager::connect()
 {
@@ -40,6 +58,7 @@ bool device_manager::connect()
     {
         std::cerr << "failed to create lockdown client" << std::endl;
         idevice_free(this->device);
+        idevice_device_list_free(device_list);
         return false;
     }
 
