@@ -1,5 +1,5 @@
 # Mindly Dock
-Dumb Phone method for iOS written in C++, leveraging libimobiledevice and iOS profiles
+Cross-platform app for MacOS and Windows, that turns your iPhone into a Dumb Phone, written in C++, leveraging libimobiledevice and iOS profiles
 
 # Showcase
 ![app showcase](https://i.imgur.com/ZjUd2XM.png)
