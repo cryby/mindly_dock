@@ -4,6 +4,7 @@
 
 #include "gui_manager.h"
 
+#include <filesystem>
 #include <iostream>
 #include <ostream>
 
@@ -22,7 +23,6 @@ void gui_manager::destroy() const {
     if (window) glfwDestroyWindow(window);
     glfwTerminate();
 }
-
 
 void gui_manager::init() {
 
@@ -46,7 +46,9 @@ void gui_manager::init() {
     ImGui_ImplOpenGL3_Init();
 
     ImGuiIO& io = ImGui::GetIO();
-    ImFont* font = io.Fonts->AddFontFromFileTTF("/Users/tobiaskocur/CLionProjects/mindly/fonts/sf.ttf", 16.f, NULL);
+
+    ImFont* font = io.Fonts->AddFontFromFileTTF("C:/Users/cxrti/source/repos/mindly_dock/fonts/sf.ttf", 16.f, NULL);
+
     ImGui::PushFont(font);
 }
 

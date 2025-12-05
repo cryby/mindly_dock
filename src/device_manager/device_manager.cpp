@@ -7,8 +7,15 @@
 #include <iostream>
 #include <ostream>
 
+#include "gui_manager/gui_manager.h"
+
 device_manager::device_manager() {
-    idevice_event_subscribe(event_handler, this);
+    std::cout << "[DEBUG] Subscribing to idevice events..." << std::endl;
+    if (idevice_event_subscribe(event_handler, this) != IDEVICE_E_SUCCESS) {
+        std::cout << "[ERROR] idevice_event_subscribe FAILED on Windows!" << std::endl;
+    } else {
+        std::cout << "[OK] Event subscription successful" << std::endl;
+    }
 }
 
 
@@ -30,7 +37,7 @@ void device_manager::event_handler(const idevice_event_t *event, void *user_data
 }
 
 
-bool device_manager::connect()
+int device_manager::connect()
 {
     if (this->connected) return true;
 
@@ -55,11 +62,14 @@ bool device_manager::connect()
         return false;
     }
 
-    if (lockdownd_client_new_with_handshake(this->device, &this->lockdown_client, "com.mindly") != LOCKDOWN_E_SUCCESS)
+    lockdownd_error_t error = lockdownd_client_new_with_handshake(this->device, &this->lockdown_client, "com.mindly");
+    if (error == LOCKDOWN_E_PAIRING_DIALOG_RESPONSE_PENDING)
     {
-        std::cerr << "failed to create lockdown client" << std::endl;
-        idevice_free(this->device);
+        return false;
+    } else if (error != LOCKDOWN_E_SUCCESS) {
+        std::cerr << "Failed to create lockdown client" << std::endl;
         idevice_device_list_free(device_list);
+        idevice_free(this->device);
         return false;
     }
 

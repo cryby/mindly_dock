@@ -21,6 +21,7 @@ class gui_manager {
         void begin();
         void end() const;
         GLFWwindow* get_window() const { return window; };
+        static const char* text;
 
 private:
     static void glfw_error_callback(int error, const char* description);

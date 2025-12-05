@@ -20,7 +20,7 @@ class device_manager {
     public:
         device_manager();
         ~device_manager();
-        bool connect();
+        int connect();
         void disconnect();
 
         [[nodiscard]] std::string get_device_name() const;
